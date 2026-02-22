@@ -53,10 +53,4 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ session_id, text }),
     }),
-
-  debugReveal: (session_id: string) =>
-    request('/game/debug/reveal', {
-      method: 'POST',
-      body: JSON.stringify({ session_id }),
-    }),
 };

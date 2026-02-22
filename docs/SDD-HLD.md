@@ -41,7 +41,7 @@ The system follows a client-server architecture:
 - Responsibility: theme menu lifecycle, selection, session timeout, transition to game.
 
 - `GameModule`
-- Endpoints: `GET /game/themes`, `POST /game/start`, `POST /game/input/dtmf`, `POST /game/guess`, `POST /game/debug/reveal`
+- Endpoints: `GET /game/themes`, `POST /game/start`, `POST /game/input/dtmf`, `POST /game/guess`
 - Responsibility: game session state machine, hint selection, answer reveal, guess evaluation, result persistence.
 
 - `LeaderboardModule`
@@ -98,7 +98,6 @@ The system follows a client-server architecture:
 - `POST /game/start`
 - `POST /game/input/dtmf`
 - `POST /game/guess`
-- `POST /game/debug/reveal` (dev utility)
 
 ## 7. Data and State Ownership
 - Frontend owns UI mode derived from last backend response.
@@ -137,4 +136,3 @@ The system follows a client-server architecture:
 - Theme must contain at least 10 personalities to start game.
 - Max 8 themes exposed via DTMF menu.
 - Timeout configured as 10 minutes inactivity for lobby/game.
-

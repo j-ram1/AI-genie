@@ -25,8 +25,6 @@ services:
         value: 60000
       - key: RATE_LIMIT_MAX
         value: 120
-      - key: ENABLE_DEBUG_ROUTES
-        value: false
       - key: AI_HTTP_TIMEOUT_MS
         value: 8000
       - key: AI_HTTP_RETRIES

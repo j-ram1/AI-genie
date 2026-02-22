@@ -27,7 +27,6 @@ In Render -> `ai-genie-backend` -> `Environment`, set:
 
 Notes:
 - `DATABASE_URL` is wired automatically from the managed database.
-- `ENABLE_DEBUG_ROUTES` is set to `false` in `render.yaml`.
 
 ## 3) Update CORS/frontend URL after first deploy
 

@@ -719,17 +719,4 @@ export class GameService {
     });
   }
 
-  async debugReveal(dto: { session_id: string }) {
-    const session = await this.prisma.gameSession.findUnique({
-      where: { id: dto.session_id },
-    });
-    if (!session) throw new BadRequestException('Invalid session_id');
-    const personalityId = session.selectedPersonalityId;
-    if (!personalityId) return { session_id: session.id, selected: null };
-    const p = await this.prisma.personality.findUnique({
-      where: { id: personalityId },
-      select: { id: true, name: true },
-    });
-    return { session_id: session.id, selected: p };
-  }
 }

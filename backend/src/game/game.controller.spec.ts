@@ -11,7 +11,6 @@ describe('GameController', () => {
       start: jest.fn(),
       inputDtmf: jest.fn(),
       guess: jest.fn(),
-      debugReveal: jest.fn(),
     };
 
     controller = new GameController(gameService);
@@ -55,17 +54,6 @@ describe('GameController', () => {
 
     expect(gameService.guess).toHaveBeenCalledWith(dto);
     expect(result).toEqual({ result: 'INCORRECT' });
-  });
-
-  // Test Case: Should delegate debug reveal request to GameService.debugReveal.
-  it('delegates debug reveal dto to service', async () => {
-    const dto = { session_id: 'sess1234' };
-    gameService.debugReveal.mockResolvedValue({ selected: null });
-
-    const result = await controller.debugReveal(dto as any);
-
-    expect(gameService.debugReveal).toHaveBeenCalledWith(dto);
-    expect(result).toEqual({ selected: null });
   });
 
   it('rejects start when user_id and user_phone are missing', async () => {

@@ -3,7 +3,6 @@ import {
   Body,
   Controller,
   Get,
-  NotFoundException,
   Post,
 } from '@nestjs/common';
 import { GameService } from './game.service';
@@ -29,10 +28,6 @@ class DtmfDto {
 class GuessDto {
   session_id: string;
   text: string;
-}
-
-class DebugRevealDto {
-  session_id: string;
 }
 
 @Controller('game')
@@ -71,20 +66,6 @@ export class GameController {
     return this.gameService.guess({
       session_id: validateId(dto?.session_id, 'session_id'),
       text: validateGuessText(dto?.text),
-    });
-  }
-
-  // dev-only
-  @Post('debug/reveal')
-  debugReveal(@Body() dto: DebugRevealDto) {
-    const debugRoutesEnabled =
-      process.env.ENABLE_DEBUG_ROUTES === 'true' ||
-      process.env.NODE_ENV !== 'production';
-    if (!debugRoutesEnabled) {
-      throw new NotFoundException();
-    }
-    return this.gameService.debugReveal({
-      session_id: validateId(dto?.session_id, 'session_id'),
     });
   }
 }

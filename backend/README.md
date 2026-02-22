@@ -61,7 +61,6 @@ File naming format: `ai-genie-YYYY-MM-DD-HH.log`.
 - `REQUEST_BODY_LIMIT` (default `100kb`): max JSON/urlencoded body size.
 - `RATE_LIMIT_WINDOW_MS` (default `60000`): request counting window per IP.
 - `RATE_LIMIT_MAX` (default `120`): max requests per IP within the window.
-- `ENABLE_DEBUG_ROUTES` (default `false` in production): set to `true` to allow `/game/debug/reveal`.
 - `AI_HTTP_TIMEOUT_MS` (default `8000`): timeout for each outbound AI API call.
 - `AI_HTTP_RETRIES` (default `2`): retry attempts for transient AI API failures/timeouts.
 
