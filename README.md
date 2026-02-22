@@ -79,3 +79,5 @@ The frontend connects to the backend API (defaulting to `http://localhost:3000`)
 
 ## 🧪 Documentation
 For detailed system architecture and API flows, refer to [docs/SDD-HLD.md](file:///Users/jangalaramsaichaitanya/ai-genie/docs/SDD-HLD.md).
+For deployment steps, refer to `/Users/jangalaramsaichaitanya/ai-genie/docs/DEPLOYMENT.md`.
+CI/CD pipeline definition is in `/Users/jangalaramsaichaitanya/ai-genie/Jenkinsfile`.
