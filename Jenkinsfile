@@ -4,10 +4,7 @@ pipeline {
   options {
     disableConcurrentBuilds()
     buildDiscarder(logRotator(numToKeepStr: '20'))
-  }
-
-  environment {
-    NODE_VERSION = '22'
+    skipDefaultCheckout(true)
   }
 
   stages {
