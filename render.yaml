@@ -32,8 +32,9 @@ services:
       - key: AI_HTTP_RETRIES
         value: 2
 
-  - type: static
+  - type: web
     name: ai-genie-frontend
+    runtime: static
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
