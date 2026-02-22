@@ -1,0 +1,28 @@
+flowchart LR
+  U["User Input"] --> G1["/game/start"]
+  G1 --> GS["Create ACTIVE GameSession"]
+
+  GS --> G2["DTMF: QUESTION_SET"]
+  G2 -->|1| G3["Generate Hint Option Set"]
+  G2 -->|2| G4["Switch to GUESS_INPUT"]
+  G2 -->|9| GE["End: ENDED_EXIT"]
+
+  G3 --> G5["DTMF: HINT_SELECTION"]
+  G5 --> G6["Fetch Attribute Value for Hidden Personality"]
+  G6 --> G7["Append QA History + Increment Hint Counter"]
+  G7 -->|Hints remain| G2
+  G7 -->|Hints exhausted| G4
+
+  G4 --> G8["/game/guess (Text)"]
+  G8 --> G9["Fuzzy Match + Candidate"]
+  G9 -->|Exact| G10["Evaluate Correctness"]
+  G9 -->|Near| G11["GUESS_CONFIRM"]
+  G9 -->|Low score| G12["Wrong Guess Flow"]
+
+  G11 -->|1| G10
+  G11 -->|2| G4
+
+  G10 -->|Correct| GW["End: WON + Persist GameResult"]
+  G10 -->|Incorrect| G12
+  G12 -->|Guesses left| G2
+  G12 -->|No guesses left| GL["End: FAILED_GUESSES + Persist GameResult"]

@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  phone     String   @unique
+  createdAt DateTime @default(now())
+
+  sessions     GameSession[]
+  lobbySession LobbySession?
+  gameResults  GameResult[]
+}
+
+model Theme {
+  id        String   @id
+  name      String
+  createdAt DateTime @default(now())
+
+  personalities Personality[]
+  configs       ThemeAttributeConfig[]
+}
+
+model Personality {
+  id        String   @id @default(cuid())
+  themeId   String
+  name      String
+  createdAt DateTime @default(now())
+
+  theme      Theme                  @relation(fields: [themeId], references: [id])
+  aliases    PersonalityAlias[]
+  attributes PersonalityAttribute[]
+}
+
+model PersonalityAlias {
+  id            String @id @default(cuid())
+  personalityId String
+  alias         String
+
+  personality Personality @relation(fields: [personalityId], references: [id])
+
+  @@index([personalityId])
+}
+
+model PersonalityAttribute {
+  id            String @id @default(cuid())
+  personalityId String
+  key           String
+  type          String // YESNO | VALUE (coarse)
+  value         String
+
+  personality Personality @relation(fields: [personalityId], references: [id])
+
+  @@unique([personalityId, key])
+  @@index([key])
+}
+
+model ThemeAttributeConfig {
+  id       String  @id @default(cuid())
+  themeId  String
+  key      String
+  type     String // YESNO | VALUE
+  strength Int     @default(1)
+  groupId  String?
+  enabled  Boolean @default(true)
+
+  theme Theme @relation(fields: [themeId], references: [id])
+
+  @@unique([themeId, key])
+  @@index([themeId])
+}
+
+model GameSession {
+  id      String @id @default(cuid())
+  userId  String
+  themeId String
+  status  String
+  mode    String
+  prompt  String?
+
+  // Game state
+  selectedPersonalityId   String?
+  usedAttrKeys            Json    @default("[]")
+  disabledGroupIds        Json    @default("[]")
+  pendingQuestionSet      Json    @default("[]")
+  pendingGuessCandidateId String?
+  qaHistory               Json    @default("[]")
+
+  // Counters
+  hintsUsed    Int @default(0)
+  maxHints     Int @default(5)
+  wrongGuesses Int @default(0)
+  maxGuesses   Int @default(3)
+
+  lastActivityAt DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+  endedAt        DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, status])
+}
+
+model LobbySession {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  status          String // ACTIVE | ENDED_EXIT | ENDED_REPLACED | EXPIRED
+  mode            String // THEME_MENU | THEME_SELECTED
+  selectedThemeId String?
+  lastActivityAt  DateTime  @default(now())
+  createdAt       DateTime  @default(now())
+  endedAt         DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, status])
+}
+
+model GameResult {
+  id           String   @id @default(cuid())
+  sessionId    String   @unique
+  userId       String
+  themeId      String
+  status       String // WON | FAILED_HINTS | FAILED_GUESSES | FAILED_TIMEOUT
+  score        Int
+  hintsUsed    Int
+  wrongGuesses Int
+  durationSec  Int
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([themeId, score])
+  @@index([score])
+  @@index([userId, createdAt])
+}
+
+model AiQuestionText {
+  id         String   @id @default(cuid())
+  themeId    String
+  attrKey    String
+  answerType String // YESNO | VALUE
+  text       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([themeId, attrKey, answerType])
+  @@index([themeId])
+}

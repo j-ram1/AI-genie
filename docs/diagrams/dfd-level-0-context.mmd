@@ -1,0 +1,8 @@
+flowchart LR
+  U["User (Web Client)"] -->|Login, DTMF, Guess| S["AI Genie System"]
+  S -->|Prompt, state, leaderboard| U
+  S <-->|CRUD| DB["PostgreSQL Database"]
+  S -->|Prompt rewrite request| AZ["Azure OpenAI (Optional)"]
+  S -->|Question generation request| GM["Gemini API (Optional)"]
+  AZ -->|Styled prompt text| S
+  GM -->|Question text| S

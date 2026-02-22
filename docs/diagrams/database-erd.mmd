@@ -1,0 +1,104 @@
+erDiagram
+  User ||--o{ GameSession : has
+  User ||--o{ GameResult : has
+  User ||--o| LobbySession : has
+
+  Theme ||--o{ Personality : has
+  Theme ||--o{ ThemeAttributeConfig : has
+
+  Personality ||--o{ PersonalityAlias : has
+  Personality ||--o{ PersonalityAttribute : has
+
+  User {
+    string id PK
+    string phone UK
+    datetime createdAt
+  }
+
+  Theme {
+    string id PK
+    string name
+    datetime createdAt
+  }
+
+  Personality {
+    string id PK
+    string themeId FK
+    string name
+    datetime createdAt
+  }
+
+  PersonalityAlias {
+    string id PK
+    string personalityId FK
+    string alias
+  }
+
+  PersonalityAttribute {
+    string id PK
+    string personalityId FK
+    string key
+    string type
+    string value
+  }
+
+  ThemeAttributeConfig {
+    string id PK
+    string themeId FK
+    string key
+    string type
+    int strength
+    string groupId
+    boolean enabled
+  }
+
+  GameSession {
+    string id PK
+    string userId FK
+    string themeId
+    string status
+    string mode
+    string selectedPersonalityId
+    json usedAttrKeys
+    json pendingQuestionSet
+    json qaHistory
+    int hintsUsed
+    int wrongGuesses
+    datetime lastActivityAt
+    datetime createdAt
+    datetime endedAt
+  }
+
+  LobbySession {
+    string id PK
+    string userId FK
+    string status
+    string mode
+    string selectedThemeId
+    datetime lastActivityAt
+    datetime createdAt
+    datetime endedAt
+  }
+
+  GameResult {
+    string id PK
+    string sessionId UK
+    string userId FK
+    string themeId
+    string status
+    int score
+    int hintsUsed
+    int wrongGuesses
+    int durationSec
+    datetime createdAt
+  }
+
+  AiQuestionText {
+    string id PK
+    string themeId
+    string attrKey
+    string answerType
+    string text
+    datetime createdAt
+    datetime updatedAt
+  }

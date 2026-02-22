@@ -1,0 +1,37 @@
+flowchart TB
+  subgraph Client["Client Layer"]
+    FE["React + Vite SPA"]
+  end
+
+  subgraph Server["Application Layer"]
+    API["NestJS API"]
+    AUTH["Auth Module"]
+    LOBBY["Lobby Module"]
+    GAME["Game Module"]
+    AI["AI Module"]
+    LEAD["Leaderboard Module"]
+    PRISMA["Prisma Service"]
+  end
+
+  subgraph Data["Data Layer"]
+    PG["PostgreSQL"]
+  end
+
+  subgraph External["External AI Services"]
+    AZ["Azure OpenAI (optional)"]
+    GM["Gemini API (optional)"]
+  end
+
+  FE -->|HTTP JSON| API
+  API --> AUTH
+  API --> LOBBY
+  API --> GAME
+  API --> LEAD
+  GAME --> AI
+  AI --> AZ
+  AI --> GM
+  AUTH --> PRISMA
+  LOBBY --> PRISMA
+  GAME --> PRISMA
+  LEAD --> PRISMA
+  PRISMA --> PG

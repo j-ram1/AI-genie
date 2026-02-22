@@ -1,0 +1,24 @@
+flowchart LR
+  App["AppModule"]
+  Auth["AuthModule"]
+  Lobby["LobbyModule"]
+  Game["GameModule"]
+  AI["AiModule"]
+  Lead["LeaderboardModule"]
+  Prisma["PrismaModule"]
+
+  App --> Auth
+  App --> Lobby
+  App --> Game
+  App --> Lead
+  App --> Prisma
+
+  Game --> AI
+  Game --> Lead
+  Game --> Prisma
+  Game <-->|forwardRef| Lobby
+  Lobby --> Prisma
+  Lobby <-->|forwardRef| Game
+  Auth --> Prisma
+  Lead --> Prisma
+  AI --> Prisma
