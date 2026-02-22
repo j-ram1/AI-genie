@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger } from 'nestjs-pino';
 import { json, urlencoded } from 'express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/global-exception.filter';
 
@@ -16,6 +17,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.useLogger(app.get(Logger));
   app.useGlobalFilters(new GlobalExceptionFilter());
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('AI Genie API')
+    .setDescription('API documentation for AI Genie backend services')
+    .setVersion('1.0.0')
+    .build();
+  const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api-docs', app, swaggerDocument, {
+    jsonDocumentUrl: 'api-docs/openapi.json',
+  });
 
   const allowedOrigins = (process.env.CORS_ORIGINS ?? 'http://localhost:5173')
     .split(',')

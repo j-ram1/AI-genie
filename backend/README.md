@@ -64,6 +64,11 @@ File naming format: `ai-genie-YYYY-MM-DD-HH.log`.
 - `AI_HTTP_TIMEOUT_MS` (default `8000`): timeout for each outbound AI API call.
 - `AI_HTTP_RETRIES` (default `2`): retry attempts for transient AI API failures/timeouts.
 
+## API docs
+
+- Swagger UI: `/api-docs`
+- OpenAPI JSON: `/api-docs/openapi.json`
+
 ## Run tests
 
 ```bash
